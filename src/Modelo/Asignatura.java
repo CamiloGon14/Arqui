@@ -67,16 +67,6 @@ public class Asignatura {
         return null;
     }
 
-    @Override
-    public String toString() {
-        return "Asignatura{" +
-                "nombre='" + nombre + '\'' +
-                ", creditos=" + creditos +
-                ", codigo='" + codigo + '\'' +
-                ", seccion='" + seccion + '\'' +
-                ", semestre='" + semestre + '\'' +
-                ", estudiantes=" + estudiantes +
-                '}';
-    }
+
 }
 

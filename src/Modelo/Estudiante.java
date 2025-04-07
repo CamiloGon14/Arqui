@@ -21,8 +21,5 @@ public class Estudiante {
         this.nombre = nombre;
     }
 
-    @Override
-    public String toString() {
-        return "Estudiante{" + "nombre='" + nombre + '\'' + ", codigo='" + codigo + '\'' + '}';
-    }
+
 }

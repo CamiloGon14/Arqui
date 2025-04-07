@@ -31,13 +31,5 @@ public class Asistencia {
         return fecha;
     }
 
-    @Override
-    public String toString() {
-        return "Asistencia{" +
-                "fecha='" + fecha + '\'' +
-                ", horaInicio='" + horaInicio + '\'' +
-                ", horaFinal='" + horaFinal + '\'' +
-                ", estadoEstudiantes=" + estadoEstudiantes +
-                '}';
-    }
+
 }
