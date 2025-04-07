@@ -1,185 +1,255 @@
 package Vista;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 import Controlador.ElControlador;
+import Modelo.Asignatura;
 
 public class Principal {
+
     public static void main(String[] args) {
-        String opcion = "";
         Scanner input = new Scanner(System.in);
         ElControlador controlador = new ElControlador();
+        String opcion = "";
 
-        while (!opcion.equals("0")) {
-            System.out.println("***** SISTEMA ASISTENCIA *******"
-                    + "\n1. Adicionar Departamento"
-                    + "\n2. Consultar Departamento"
-                    + "\n3. Modificar Departamento"
-                    + "\n4. Registrar Estudiantes en Asignaturas"
-                    + "\n5. Generar Lista de Asistencia"
-                    + "\n6. Cambiar estado de lista de asistencia"
-                    + "\n7. Adicionar Asignatura"
-                    + "\n8. Consultar Asignatura"
-                    + "\n9. Modificar Asignatura"
-                    + "\n10. Eliminar Asignatura"
-                    + "\n11. Adicionar Estudiante"
-                    + "\n12. Consultar Estudiante"
-                    + "\n13. Modificar Estudiante"
-                    + "\n14. Eliminar Estudiante"
-                    + "\n15. Adicionar Asistencia"
-                    + "\n16. Consultar Asistencia"
-                    + "\n17. Modificar Asistencia"
-                    + "\n18. Eliminar Asistencia"
-                    + "\n0. Salir"
-                    + "\nSeleccione la opción que desee:");
+        do {
+            System.out.println("***** SISTEMA ASISTENCIA *******");
+            System.out.println("1. Consultar Departamento");
+            System.out.println("2. Modificar Departamento");
+            System.out.println("3. Registrar Estudiante en Departamento");
+            System.out.println("4. Consultar Estudiante en Departamento");
+            System.out.println("5. Modificar Estudiante en Departamento");
+            System.out.println("6. Agregar Asignatura");
+            System.out.println("7. Consultar Asignatura");
+            System.out.println("8. Modificar Asignatura");
+            System.out.println("9. Registrar Estudiante en Asignatura");
+            System.out.println("10. Consultar Estudiantes en Asignatura");
+            System.out.println("11. Crear Lista de Asistencia Vacía");
+            System.out.println("12. Llenar Asistencia");
+            System.out.println("13. Modificar Asistencia (cambiar estado)");
+            System.out.println("14. Listar Asistencias");
+            System.out.println("15. Salir");
+            System.out.print("Seleccione la opción que desee: ");
             opcion = input.nextLine();
+
             if (opcion.equals("1")) {
-                // Adicionar Departamento
-                System.out.print("Nombre del departamento: ");
-                String nombreDept = input.nextLine();
-                System.out.println(controlador.adicionarDepartamento(nombreDept) ? "Departamento adicionado." : "Ya existe un departamento.");
+                // Consultar departamento (muestra el nombre)
+                System.out.println("Nombre del Departamento: " + controlador.consultarDepartamento(""));
             } else if (opcion.equals("2")) {
-                // Consultar Departamento
-                System.out.println(" Departamento actual: " + controlador.consultarDepartamento());
-            } else if (opcion.equals("3")) {
-                // Modificar Departamento
-                System.out.print("Nuevo nombre del departamento: ");
-                String nuevoNombre = input.nextLine();
-                System.out.println(controlador.modificarDepartamento(nuevoNombre) ? " Nombre actualizado." : " No se puede modificar.");
-            } else if (opcion.equals("4")) {
-                // Registrar Estudiantes en Asignaturas
-                System.out.print("Código asignatura: ");
-                String codA = input.nextLine();
-                System.out.print("Cantidad de estudiantes a registrar: ");
-                int n = Integer.parseInt(input.nextLine());
-                ArrayList<String> cods = new ArrayList<>();
-                for (int i = 0; i < n; i++) {
-                    System.out.print("Código estudiante " + (i + 1) + ": ");
-                    cods.add(input.nextLine());
+                // Modificar departamento
+                System.out.print("Nuevo nombre del Departamento: ");
+                String nuevoDep = input.nextLine();
+                if (controlador.modificarDepartamento(nuevoDep, nuevoDep)) {
+                    System.out.println("Departamento modificado a: " + nuevoDep);
+                } else {
+                    System.out.println("No se pudo modificar el departamento");
                 }
-                System.out.println(controlador.registrarEstudiantesEnAsignatura(codA, cods) ? "✔ Estudiantes registrados." : "✖ Error.");
+            } else if (opcion.equals("3")) {
+                // Registrar estudiante en departamento
+                System.out.print("Nombres del estudiante: ");
+                String nombres = input.nextLine();
+                System.out.print("Apellidos del estudiante: ");
+                String apellidos = input.nextLine();
+                System.out.print("Tipo de documento: ");
+                String tipoDoc = input.nextLine();
+                System.out.print("Número de documento: ");
+                String numDoc = input.nextLine();
+                if (controlador.registrarEstudianteEnDepartamento(nombres, apellidos, tipoDoc, numDoc)) {
+                    System.out.println("Estudiante registrado en el departamento.");
+                } else {
+                    System.out.println("No se pudo registrar el estudiante.");
+                }
+            } else if (opcion.equals("4")) {
+                // Consultar estudiante en departamento
+                System.out.print("Tipo de documento del estudiante a consultar: ");
+                String tipoConsulta = input.nextLine();
+                System.out.print("Número de documento del estudiante: ");
+                String numConsulta = input.nextLine();
+                System.out.println(controlador.consultarEstudianteEnDepartamento(tipoConsulta, numConsulta));
             } else if (opcion.equals("5")) {
-                // Generar Lista de Asistencia
-                System.out.print("Código asignatura: ");
-                String codAsist = input.nextLine();
-                System.out.println(controlador.generarListaAsistencia(codAsist));
+                // Modificar estudiante en departamento
+                System.out.print("Tipo de documento del estudiante a modificar: ");
+                String tipoMod = input.nextLine();
+                System.out.print("Número de documento del estudiante: ");
+                String numMod = input.nextLine();
+                System.out.print("Nuevos nombres: ");
+                String nuevosNombres = input.nextLine();
+                System.out.print("Nuevos apellidos: ");
+                String nuevosApellidos = input.nextLine();
+                System.out.print("Nuevo tipo de documento: ");
+                String nuevoTipo = input.nextLine();
+                if (controlador.modificarEstudianteEnDepartamento(tipoMod, numMod, nuevosNombres, nuevosApellidos, nuevoTipo)) {
+                    System.out.println("Estudiante modificado.");
+                } else {
+                    System.out.println("No se encontró el estudiante.");
+                }
             } else if (opcion.equals("6")) {
-                // Cambiar estado de lista de asistencia
-                System.out.print("Código asignatura: ");
-                String codAsign = input.nextLine();
-                System.out.print("Código estudiante: ");
-                String codEst = input.nextLine();
-                System.out.print("Nueva asistencia (Presente/Ausente): ");
-                String estado = input.nextLine();
-                System.out.println(controlador.cambiarEstadoAsistencia(codAsign, codEst, estado) ? " Estado cambiado." : " No se pudo cambiar.");
-            } else if (opcion.equals("7")) {
-                // Adicionar Asignatura
-                System.out.print("Nombre asignatura: ");
-                String nomA = input.nextLine();
+                // Agregar asignatura
+                System.out.print("Nombre de la asignatura: ");
+                String nomAsig = input.nextLine();
+                System.out.print("Código de la asignatura: ");
+                String codAsig = input.nextLine();
+                System.out.print("Sección (ej: Grupo1): ");
+                String seccion = input.nextLine();
                 System.out.print("Créditos: ");
                 int creditos = Integer.parseInt(input.nextLine());
-                System.out.print("Código: ");
-                String codigo = input.nextLine();
-                System.out.print("Sección: ");
-                String seccion = input.nextLine();
-                System.out.print("Semestre: ");
+                System.out.print("Semestre (ej: 2025-1): ");
                 String semestre = input.nextLine();
-                System.out.println(controlador.adicionarAsignatura(nomA, creditos, codigo, seccion, semestre) ? " Asignatura adicionada." : " No se pudo adicionar.");
-            } else if (opcion.equals("8")) {
-                // Consultar Asignatura
-                System.out.print("Código asignatura: ");
-                String cA = input.nextLine();
-                System.out.println(controlador.consultarAsignatura(cA));
-            } else if (opcion.equals("9")) {
-                // Modificar Asignatura
-                System.out.print("Código asignatura a modificar: ");
-                String codAm = input.nextLine();
-                System.out.print("Nuevo nombre: ");
-                String nuevoNom = input.nextLine();
-                System.out.print("Nuevos créditos: ");
-                int nuevosCred = Integer.parseInt(input.nextLine());
-                System.out.print("Nueva sección: ");
-                String nuevaSec = input.nextLine();
-                System.out.print("Nuevo semestre: ");
-                String nuevoSem = input.nextLine();
-                System.out.println(controlador.modificarAsignatura(codAm, nuevoNom, nuevosCred, nuevaSec, nuevoSem) ? "Modificada." : "No se pudo modificar.");
-            } else if (opcion.equals("10")) {
-                // Eliminar Asignatura
-                System.out.print("Código asignatura: ");
-                String codAEli = input.nextLine();
-                System.out.println(controlador.eliminarAsignatura(codAEli) ? " Eliminada." : " No existe.");
-            } else if (opcion.equals("11")) {
-                // Adicionar Estudiante
-                System.out.print("Nombre estudiante: ");
-                String nomE = input.nextLine();
-                System.out.print("Código: ");
-                String codE = input.nextLine();
-                System.out.println(controlador.adicionarEstudiante(nomE, codE) ? " Estudiante adicionado." : " Ya existe.");
-            } else if (opcion.equals("12")) {
-                // Consultar Estudiante
-                System.out.print("Código estudiante: ");
-                String codEstu = input.nextLine();
-                System.out.println(controlador.consultarEstudiante(codEstu));
-            } else if (opcion.equals("13")) {
-                // Modificar Estudiante
-                System.out.print("Código estudiante: ");
-                String codMod = input.nextLine();
-                System.out.print("Nuevo nombre: ");
-                String nuevoNomEst = input.nextLine();
-                System.out.println(controlador.modificarEstudiante(codMod, nuevoNomEst) ? " Modificado." : " No se encontró.");
-            } else if (opcion.equals("14")) {
-                // Eliminar Estudiante
-                System.out.print("Código estudiante a eliminar: ");
-                String codEliminar = input.nextLine();
-                System.out.println(controlador.eliminarEstudiante(codEliminar) ? " Eliminado." : " No se encontró.");
-            } else if (opcion.equals("15")) {
-                // Adicionar Asistencia
-                System.out.print("Código asignatura: ");
-                String codAsist2 = input.nextLine();
-                System.out.print("Fecha: ");
-                String fecha = input.nextLine();
-                System.out.print("Hora inicio: ");
-                String hi = input.nextLine();
-                System.out.print("Hora final: ");
-                String hf = input.nextLine();
-                System.out.print("Cantidad de estudiantes: ");
-                int m = Integer.parseInt(input.nextLine());
-                ArrayList<String> codigos = new ArrayList<>();
-                ArrayList<String> estados = new ArrayList<>();
-                for (int i = 0; i < m; i++) {
-                    System.out.print("Código estudiante " + (i + 1) + ": ");
-                    codigos.add(input.nextLine());
-                    System.out.print("Estado (Presente/Ausente): ");
-                    estados.add(input.nextLine());
+                if (controlador.adicionarAsignatura(nomAsig, creditos, codAsig, seccion, semestre)) {
+                    System.out.println("Asignatura agregada.");
+                } else {
+                    System.out.println("No se pudo agregar la asignatura.");
                 }
-                System.out.println(controlador.adicionarAsistencia(codAsist2, fecha, hi, hf, codigos, estados) ? " Asistencia registrada." : " Error.");
-            } else if (opcion.equals("16")) {
-                // Consultar Asistencia
-                System.out.print("Código asignatura: ");
-                String codAsisCon = input.nextLine();
-                System.out.println(controlador.consultarAsistencias(codAsisCon));
-            } else if (opcion.equals("17")) {
-                // Modificar Asistencia
-                System.out.print("Código asignatura: ");
-                String codAsisMod = input.nextLine();
-                System.out.print("Fecha de asistencia: ");
-                String fechaMod = input.nextLine();
-                System.out.print("Nuevo estado: ");
-                String estadoMod = input.nextLine();
-                System.out.print("Código estudiante: ");
-                String codEstMod = input.nextLine();
-                System.out.println(controlador.modificarAsistencia(codAsisMod, fechaMod, codEstMod, estadoMod) ? " Asistencia modificada." : " Error.");
-            } else if (opcion.equals("18")) {
-                // Eliminar Asistencia
-                System.out.print("Código asignatura: ");
-                String codAsisDel = input.nextLine();
-                System.out.print("Fecha a eliminar: ");
-                String fechaDel = input.nextLine();
-                System.out.println(controlador.eliminarAsistencia(codAsisDel, fechaDel) ? " Asistencia eliminada." : "No se encontró.");
+            } else if (opcion.equals("7")) {
+                // Consultar asignatura
+                System.out.print("Código de la asignatura: ");
+                String codConsulta = input.nextLine();
+                System.out.print("Sección: ");
+                String secConsulta = input.nextLine();
+                System.out.print("Semestre: ");
+                String semConsulta = input.nextLine();
+                Asignatura asig = controlador.consultarAsignatura(codConsulta, secConsulta, semConsulta);
+                if (asig != null) {
+                    System.out.println("Nombre: " + asig.getNombre() + ", Créditos: " + asig.getCreditos());
+                } else {
+                    System.out.println("Asignatura no encontrada.");
+                }
+            } else if (opcion.equals("8")) {
+                // Modificar asignatura
+                System.out.print("Código de la asignatura a modificar: ");
+                String codMod = input.nextLine();
+                System.out.print("Sección: ");
+                String secMod = input.nextLine();
+                System.out.print("Semestre: ");
+                String semMod = input.nextLine();
+                System.out.print("Nuevo nombre (dejar vacío si no se cambia): ");
+                String nuevoNomAsig = input.nextLine();
+                System.out.print("Nuevos créditos (0 si no se cambian): ");
+                int nuevosCred = Integer.parseInt(input.nextLine());
+                Asignatura asig = controlador.consultarAsignatura(codMod, secMod, semMod);
+                if (asig != null) {
+                    if (controlador.modificarAsignatura(codMod, secMod, semMod,
+                            nuevoNomAsig.isEmpty() ? asig.getNombre() : nuevoNomAsig,
+                            nuevosCred == 0 ? asig.getCreditos() : nuevosCred)) {
+                        System.out.println("Asignatura modificada.");
+                    } else {
+                        System.out.println("No se pudo modificar la asignatura.");
+                    }
+                } else {
+                    System.out.println("Asignatura no encontrada.");
+                }
+            } else if (opcion.equals("9")) {
+                // Registrar estudiante en asignatura
+                System.out.print("Tipo de documento del estudiante: ");
+                String tipoEst = input.nextLine();
+                System.out.print("Número de documento del estudiante: ");
+                String numEst = input.nextLine();
+                System.out.print("Código de la asignatura: ");
+                String codAsigEst = input.nextLine();
+                System.out.print("Sección: ");
+                String secAsigEst = input.nextLine();
+                System.out.print("Semestre: ");
+                String semAsigEst = input.nextLine();
+                if (controlador.registrarEstudianteEnAsignatura(tipoEst, numEst, codAsigEst, secAsigEst, semAsigEst)) {
+                    System.out.println("Estudiante registrado en la asignatura.");
+                } else {
+                    System.out.println("No se pudo registrar el estudiante en la asignatura.");
+                }
+            } else if (opcion.equals("10")) {
+                // Consultar estudiantes en asignatura
+                System.out.print("Código de la asignatura: ");
+                String codConsAsig = input.nextLine();
+                System.out.print("Sección: ");
+                String secConsAsig = input.nextLine();
+                System.out.print("Semestre: ");
+                String semConsAsig = input.nextLine();
+                System.out.println(controlador.consultarEstudiantesEnAsignatura(codConsAsig, secConsAsig, semConsAsig));
+            } else if (opcion.equals("11")) {
+                // Crear lista de asistencia vacía
+                System.out.print("Código de la asignatura: ");
+                String codAsis = input.nextLine();
+                System.out.print("Sección: ");
+                String secAsis = input.nextLine();
+                System.out.print("Semestre: ");
+                String semAsis = input.nextLine();
+                System.out.print("Fecha (ej: 2025-03-15): ");
+                String fecha = input.nextLine();
+                System.out.print("Hora de inicio: ");
+                String horaInicio = input.nextLine();
+                System.out.print("Hora final: ");
+                String horaFinal = input.nextLine();
+                if (controlador.crearListaAsistencia(codAsis, secAsis, semAsis, fecha, horaInicio, horaFinal)) {
+                    System.out.println("Lista de asistencia creada con estado 'No asistió' para todos los estudiantes.");
+                } else {
+                    System.out.println("No se pudo crear la lista de asistencia.");
+                }
+            } else if (opcion.equals("12")) {
+                // Llenar asistencia
+                System.out.print("Código de la asignatura: ");
+                String codLLenar = input.nextLine();
+                System.out.print("Sección: ");
+                String secLLenar = input.nextLine();
+                System.out.print("Semestre: ");
+                String semLLenar = input.nextLine();
+                System.out.print("Fecha de la lista: ");
+                String fechaLLenar = input.nextLine();
+                System.out.print("Hora de inicio de la lista: ");
+                String horaIniLLenar = input.nextLine();
+                System.out.print("Hora final de la lista: ");
+                String horaFinLLenar = input.nextLine();
+                System.out.print("Clave del estudiante (tipo-numero, ej: CC-123): ");
+                String claveEst = input.nextLine();
+                System.out.print("Nuevo estado (llegó, no llegó, llegó tarde): ");
+                String nuevoEstado = input.nextLine();
+                if (controlador.llenarAsistencia(codLLenar, secLLenar, semLLenar, fechaLLenar, horaIniLLenar, horaFinLLenar, claveEst, nuevoEstado)) {
+                    System.out.println("Asistencia actualizada.");
+                } else {
+                    System.out.println("No se pudo actualizar la asistencia.");
+                }
+            } else if (opcion.equals("13")) {
+                // Modificar asistencia (similar a llenar, se puede reutilizar el método llenarAsistencia)
+                System.out.print("Código de la asignatura: ");
+                String codModAsis = input.nextLine();
+                System.out.print("Sección: ");
+                String secModAsis = input.nextLine();
+                System.out.print("Semestre: ");
+                String semModAsis = input.nextLine();
+                System.out.print("Fecha de la lista: ");
+                String fechaModAsis = input.nextLine();
+                System.out.print("Hora de inicio de la lista: ");
+                String horaIniModAsis = input.nextLine();
+                System.out.print("Hora final de la lista: ");
+                String horaFinModAsis = input.nextLine();
+                System.out.print("Clave del estudiante (tipo-numero): ");
+                String claveModAsis = input.nextLine();
+                System.out.print("Nuevo estado (llegó, no llegó, llegó tarde): ");
+                String estadoModAsis = input.nextLine();
+                if (controlador.llenarAsistencia(codModAsis, secModAsis, semModAsis, fechaModAsis, horaIniModAsis, horaFinModAsis, claveModAsis, estadoModAsis)) {
+                    System.out.println("Asistencia modificada.");
+                } else {
+                    System.out.println("No se pudo modificar la asistencia.");
+                }
+            } else if (opcion.equals("14")) {
+                // Listar asistencias
+                System.out.print("Código de la asignatura: ");
+                String codListAsis = input.nextLine();
+                System.out.print("Sección: ");
+                String secListAsis = input.nextLine();
+                System.out.print("Semestre: ");
+                String semListAsis = input.nextLine();
+                System.out.print("Fecha de la lista: ");
+                String fechaListAsis = input.nextLine();
+                System.out.print("Hora de inicio de la lista: ");
+                String horaIniListAsis = input.nextLine();
+                System.out.print("Hora final de la lista: ");
+                String horaFinListAsis = input.nextLine();
+                System.out.println(controlador.listarAsistencias(codListAsis, secListAsis, semListAsis, fechaListAsis, horaIniListAsis, horaFinListAsis));
+            } else if (opcion.equals("15")) {
+                System.out.println("Saliendo...");
             } else {
-                // Número no válido
+                System.out.println("Opción no válida, intente de nuevo.");
             }
-        }
+
+        } while (!opcion.equals("15"));
 
         input.close();
     }
