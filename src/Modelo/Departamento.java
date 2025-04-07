@@ -5,18 +5,12 @@ import java.util.ArrayList;
 public class Departamento {
     private String nombre;
     private ArrayList<Asignatura> asignaturas;
-    private static Departamento instancia = null;
+    private ArrayList<Estudiante> estudiantes;
 
-    private Departamento() {
-        nombre = "";
-        asignaturas = new ArrayList<>();
-    }
-
-    public static Departamento singleton() {
-        if (instancia == null) {
-            instancia = new Departamento();
-        }
-        return instancia;
+    public Departamento(String nombre) {
+        this.nombre = nombre;
+        this.asignaturas = new ArrayList<>();
+        this.estudiantes = new ArrayList<>();
     }
 
     public String getNombre() {
@@ -27,42 +21,54 @@ public class Departamento {
         this.nombre = nombre;
     }
 
-    public boolean adicionarAsignatura(String nombre, int creditos, String codigo, String seccion, String semestre) {
-        Asignatura asignatura = new Asignatura(nombre, creditos, codigo, seccion, semestre);
-        asignaturas.add(asignatura);
-        return true;
+    public ArrayList<Asignatura> getAsignaturas() {
+        return asignaturas;
     }
 
-    public Asignatura consultarAsignatura(String codigo, String seccion, String semestre) {
-        for (Asignatura asignatura : asignaturas) {
-            if (asignatura.getCodigo().equalsIgnoreCase(codigo) &&
-                    asignatura.getSeccion().equalsIgnoreCase(seccion) &&
-                    asignatura.getSemestre().equalsIgnoreCase(semestre)) {
-                return asignatura;
+    public ArrayList<Estudiante> getEstudiantes() {
+        return estudiantes;
+    }
+
+    public void adicionarAsignatura(Asignatura a) {
+        asignaturas.add(a);
+    }
+
+    public Asignatura buscarAsignatura(String codigo) {
+        for (Asignatura a : asignaturas) {
+            if (a.getCodigo().equals(codigo)) {
+                return a;
             }
         }
         return null;
     }
 
-    public boolean actualizarAsignatura(String codigo, String seccion, String semestre, String nombre, int creditos) {
-        Asignatura asignatura = consultarAsignatura(codigo, seccion, semestre);
-        if (asignatura != null) {
-            asignatura.setNombre(nombre);
-            asignatura.setCreditos(creditos);
+    public boolean eliminarAsignatura(String codigo) {
+        Asignatura a = buscarAsignatura(codigo);
+        if (a != null) {
+            asignaturas.remove(a);
             return true;
         }
         return false;
     }
 
-    public boolean borrarAsignatura(String codigo, String seccion, String semestre) {
-        for (int i = 0; i < asignaturas.size(); i++) {
-            Asignatura asignatura = asignaturas.get(i);
-            if (asignatura.getCodigo().equalsIgnoreCase(codigo) &&
-                    asignatura.getSeccion().equalsIgnoreCase(seccion) &&
-                    asignatura.getSemestre().equalsIgnoreCase(semestre)) {
-                asignaturas.remove(i);
-                return true;
+    public void adicionarEstudiante(Estudiante e) {
+        estudiantes.add(e);
+    }
+
+    public Estudiante buscarEstudiante(String codigo) {
+        for (Estudiante e : estudiantes) {
+            if (e.getCodigo().equals(codigo)) {
+                return e;
             }
+        }
+        return null;
+    }
+
+    public boolean eliminarEstudiante(String codigo) {
+        Estudiante e = buscarEstudiante(codigo);
+        if (e != null) {
+            estudiantes.remove(e);
+            return true;
         }
         return false;
     }

@@ -1,32 +1,28 @@
 package Modelo;
 
 public class Estudiante {
-    private String nombres;
-    private String apellidos;
-    private String tipoDocumento;
-    private String numeroDocumento;
+    private String nombre;
+    private String codigo;
 
-    public Estudiante(){
-
+    public Estudiante(String nombre, String codigo) {
+        this.nombre = nombre;
+        this.codigo = codigo;
     }
 
-    public Estudiante(String nombres, String apellidos, String tipoDocumento, String numeroDocumento) {
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.tipoDocumento = tipoDocumento;
-        this.numeroDocumento = numeroDocumento;
+    public String getNombre() {
+        return nombre;
     }
 
-    // Getters y Setters
-    public String getNombres() { return nombres; }
-    public void setNombres(String nombres) { this.nombres = nombres; }
+    public String getCodigo() {
+        return codigo;
+    }
 
-    public String getApellidos() { return apellidos; }
-    public void setApellidos(String apellidos) { this.apellidos = apellidos; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public String getTipoDocumento() { return tipoDocumento; }
-    public void setTipoDocumento(String tipoDocumento) { this.tipoDocumento = tipoDocumento; }
-
-    public String getNumeroDocumento() { return numeroDocumento; }
-    public void setNumeroDocumento(String numeroDocumento) { this.numeroDocumento = numeroDocumento; }
+    @Override
+    public String toString() {
+        return "Estudiante{" + "nombre='" + nombre + '\'' + ", codigo='" + codigo + '\'' + '}';
+    }
 }
