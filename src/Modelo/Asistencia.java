@@ -4,51 +4,51 @@ import java.util.ArrayList;
 
 public class Asistencia {
     private String fecha;
-    private String hora_inicio;
-    private String hora_final;
+    private String horaInicio;
+    private String horaFinal;
     private ArrayList<String> codigos;
     private ArrayList<String> estados;
 
-    public Asistencia(String fecha, String hora_inicio, String hora_final) {
+    public Asistencia(String fecha, String horaInicio, String horaFinal) {
         this.fecha = fecha;
-        this.hora_inicio = hora_inicio;
-        this.hora_final = hora_final;
+        this.horaInicio = horaInicio;
+        this.horaFinal = horaFinal;
         this.codigos = new ArrayList<>();
         this.estados = new ArrayList<>();
     }
 
-    // Getters y Setters
-    public String getFecha() { return fecha; }
-    public void setFecha(String fecha) { this.fecha = fecha; }
-    public String getHora_inicio() { return hora_inicio; }
-    public void setHora_inicio(String hora_inicio) { this.hora_inicio = hora_inicio; }
-    public String getHora_final() { return hora_final; }
-    public void setHora_final(String hora_final) { this.hora_final = hora_final; }
-    public ArrayList<String> getCodigos() { return codigos; }
-    public ArrayList<String> getEstados() { return estados; }
-    public void setCodigos(ArrayList<String> codigos) { this.codigos = codigos; }
-    public void setEstados(ArrayList<String> estados) { this.estados = estados; }
-
-    // Métodos para manipular asistencias de cada estudiante
-    public boolean adicionarAsistencia(String codigo, String estado) {
-        codigos.add(codigo);
-        estados.add(estado);
-        return true;
+    // Getters
+    public String getFecha() {
+        return fecha;
     }
 
-    public String consultarAsistencia(String codigo) {
-        for (int i = 0; i < codigos.size(); i++) {
-            if (codigos.get(i).equalsIgnoreCase(codigo)) {
-                return estados.get(i);
-            }
-        }
-        return null;
+    public String getHoraInicio() {
+        return horaInicio;
     }
 
-    public boolean modificarAsistencia(String codigo, String estado) {
+    public String getHoraFinal() {
+        return horaFinal;
+    }
+
+    public ArrayList<String> getCodigos() {
+        return codigos;
+    }
+
+    public ArrayList<String> getEstados() {
+        return estados;
+    }
+
+    // Agregar estudiante a la lista de asistencia con estado por defecto "AUSENTE"
+    public void agregarEstudiante(String claveEstudiante) {
+        codigos.add(claveEstudiante);
+        estados.add("AUSENTE");
+    }
+
+    // Modificar estado de asistencia para un estudiante
+    public boolean modificarAsistencia(String claveEstudiante, String nuevoEstado) {
         for (int i = 0; i < codigos.size(); i++) {
-            if (codigos.get(i).equalsIgnoreCase(codigo)) {
-                estados.set(i, estado);
+            if (codigos.get(i).equals(claveEstudiante)) {
+                estados.set(i, nuevoEstado.toUpperCase());
                 return true;
             }
         }

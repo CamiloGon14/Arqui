@@ -1,7 +1,6 @@
 package Controlador;
 
 import Modelo.*;
-
 import java.util.ArrayList;
 
 public class ElControlador {
@@ -38,25 +37,42 @@ public class ElControlador {
 
     // Gestión de estudiantes en el departamento
     public boolean registrarEstudianteEnDepartamento(String nombres, String apellidos, String tipoDoc, String numDoc) {
-        Estudiante e = new Estudiante(nombres, apellidos, tipoDoc, numDoc);
+        // Concatenamos nombres y apellidos para obtener el nombre completo
+        String nombreCompleto = nombres + " " + apellidos;
+        // Se crea el estudiante con: nombreCompleto, numDoc (como código) y tipoDoc (como tipo)
+        Estudiante e = new Estudiante(nombreCompleto, numDoc, tipoDoc);
         return departamento.registrarEstudiante(e);
     }
 
     public String consultarEstudianteEnDepartamento(String tipo, String num) {
         Estudiante e = departamento.consultarEstudiante(tipo, num);
         if (e != null) {
-            return "Estudiante: " + e.getNombres() + " " + e.getApellidos();
+            return "Estudiante: " + e.getNombre();
         }
         return "Estudiante no encontrado";
     }
 
     public boolean modificarEstudianteEnDepartamento(String tipo, String num, String nuevosNombres, String nuevosApellidos, String nuevoTipoDoc) {
-        return departamento.modificarEstudiante(tipo, num, nuevosNombres, nuevosApellidos, nuevoTipoDoc);
+        // Se actualiza el nombre concatenando los nuevos nombres y apellidos
+        String nombreCompleto = nuevosNombres + " " + nuevosApellidos;
+        return departamento.modificarEstudiante(tipo, num, nombreCompleto, nuevoTipoDoc);
     }
 
-    // CRUD Asignatura
-    public boolean adicionarAsignatura(String nombre, int creditos, String codigo, String seccion, String semestre) {
-        return departamento.adicionarAsignatura(nombre, creditos, codigo, seccion, semestre);
+    // Consultar estudiantes en asignatura
+    public String consultarEstudiantesEnAsignatura(String codigoAsignatura, String seccion, String semestre) {
+        Asignatura a = departamento.consultarAsignatura(codigoAsignatura, seccion, semestre);
+        if (a != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Lista de estudiantes en la asignatura:\n");
+            for (Estudiante e : a.getEstudiantes()) {
+                sb.append("Tipo: ").append(e.getTipo())
+                        .append(", Código: ").append(e.getCodigo())
+                        .append(", Nombre: ").append(e.getNombre())
+                        .append("\n");
+            }
+            return sb.toString();
+        }
+        return "Asignatura no encontrada";
     }
 
     public Asignatura consultarAsignatura(String codigo, String seccion, String semestre) {
@@ -69,28 +85,28 @@ public class ElControlador {
 
     // Gestión de estudiantes en asignatura
     public boolean registrarEstudianteEnAsignatura(String tipoDoc, String numDoc, String codigo, String seccion, String semestre) {
-        // Primero se busca el estudiante en el departamento
+        // Se busca el estudiante en el departamento
         Estudiante e = departamento.consultarEstudiante(tipoDoc, numDoc);
-        if (e != null) {
-            Asignatura a = departamento.consultarAsignatura(codigo, seccion, semestre);
-            if (a != null) {
-                return a.registrarEstudiante(e);
-            }
+        if (e == null) {
+            System.out.println("Estudiante no registrado en el departamento.");
+            return false;
         }
-        return false;
-    }
-
-    public String consultarEstudiantesEnAsignatura(String codigo, String seccion, String semestre) {
+        // Se busca la asignatura en el departamento
         Asignatura a = departamento.consultarAsignatura(codigo, seccion, semestre);
-        if (a != null) {
-            StringBuilder sb = new StringBuilder();
-            for (Estudiante e : a.getEstudiantes()) {
-                sb.append(e.getTipoDocumento()).append("-")
-                        .append(e.getNumeroDocumento()).append("\n");
-            }
-            return sb.toString();
+        if (a == null) {
+            System.out.println("Asignatura no encontrada.");
+            return false;
         }
-        return "Asignatura no encontrada";
+        // Verifica si el estudiante ya está registrado en la asignatura (para evitar duplicados)
+        for (Estudiante est : a.getEstudiantes()) {
+            if (est.getTipo().equalsIgnoreCase(tipoDoc) &&
+                    est.getCodigo().equalsIgnoreCase(numDoc)) {
+                System.out.println("El estudiante ya está registrado en la asignatura.");
+                return false;
+            }
+        }
+        // Registra el estudiante en la asignatura
+        return a.registrarEstudiante(e);
     }
 
     // Gestión de asistencia en asignatura
@@ -130,4 +146,11 @@ public class ElControlador {
         }
         return "No se encontró la asistencia";
     }
+
+    public boolean adicionarAsignatura(String codigo, String nombre, int creditos, String seccion, String semestre) {
+        Asignatura asignatura = new Asignatura(codigo, nombre, seccion, semestre, creditos);
+        return departamento.registrarAsignatura(asignatura);
+    }
+
+
 }

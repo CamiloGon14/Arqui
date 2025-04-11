@@ -84,21 +84,27 @@ public class Principal {
                 }
             } else if (opcion.equals("6")) {
                 // Agregar asignatura
-                System.out.print("Nombre de la asignatura: ");
-                String nomAsig = input.nextLine();
                 System.out.print("Código de la asignatura: ");
-                String codAsig = input.nextLine();
-                System.out.print("Sección (ej: Grupo1): ");
-                String seccion = input.nextLine();
+                String codigo = input.nextLine();
+
+                System.out.print("Nombre de la asignatura: ");
+                String nombre = input.nextLine();
+
                 System.out.print("Créditos: ");
                 int creditos = Integer.parseInt(input.nextLine());
-                System.out.print("Semestre (ej: 2025-1): ");
+
+                System.out.print("Sección: ");
+                String seccion = input.nextLine();
+
+                System.out.print("Semestre: ");
                 String semestre = input.nextLine();
-                if (controlador.adicionarAsignatura(nomAsig, creditos, codAsig, seccion, semestre)) {
-                    System.out.println("Asignatura agregada.");
+
+                if (controlador.adicionarAsignatura(codigo, nombre, creditos, seccion, semestre)) {
+                    System.out.println("Asignatura adicionada correctamente.");
                 } else {
-                    System.out.println("No se pudo agregar la asignatura.");
+                    System.out.println("La asignatura ya existe.");
                 }
+
             } else if (opcion.equals("7")) {
                 // Consultar asignatura
                 System.out.print("Código de la asignatura: ");
@@ -157,12 +163,13 @@ public class Principal {
             } else if (opcion.equals("10")) {
                 // Consultar estudiantes en asignatura
                 System.out.print("Código de la asignatura: ");
-                String codConsAsig = input.nextLine();
+                String codigoAsignatura = input.nextLine();
                 System.out.print("Sección: ");
-                String secConsAsig = input.nextLine();
+                String seccion = input.nextLine();
                 System.out.print("Semestre: ");
-                String semConsAsig = input.nextLine();
-                System.out.println(controlador.consultarEstudiantesEnAsignatura(codConsAsig, secConsAsig, semConsAsig));
+                String semestre = input.nextLine();
+                System.out.println(controlador.consultarEstudiantesEnAsignatura(codigoAsignatura, seccion, semestre));
+
             } else if (opcion.equals("11")) {
                 // Crear lista de asistencia vacía
                 System.out.print("Código de la asignatura: ");
